@@ -3,6 +3,7 @@ package com.cosmo.arquitecturamvpbase.views.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -24,6 +25,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter> implements I
 
     private ListView productList;
     private ProductAdapter productAdapter;
+    private ContentLoadingProgressBar progress;
 
 
     @Override
@@ -32,9 +34,12 @@ public class ProductActivity extends BaseActivity<ProductPresenter> implements I
         setContentView(R.layout.activity_product);
         setPresenter(new ProductPresenter());
         getPresenter().inject(this, getValidateInternet());
-        createProgressDialog();
-        getPresenter().validateInternetProduct();
+        //createProgressDialog();
         productList = (ListView) findViewById(R.id.product_listView);
+        progress = (ContentLoadingProgressBar) findViewById(R.id.progress);
+        progress.show();
+        getPresenter().validateInternetProduct();
+
     }
 
     @Override
@@ -42,6 +47,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter> implements I
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                progress.hide();
                 callAdapter(productArrayList);
             }
         });

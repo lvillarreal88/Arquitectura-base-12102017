@@ -35,7 +35,7 @@ public class ProductPresenter extends BasePresenter<IProductView> {
     }
 
     private void createThreadProduct() {
-        getView().showProgress(R.string.loading_message);
+       // getView().showProgress(R.string.loading_message);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -53,9 +53,9 @@ public class ProductPresenter extends BasePresenter<IProductView> {
 
         } catch (RetrofitError retrofitError){
             //TODO: mostrar alert
-        }finally {
+        }/*finally {
             getView().hideProgress();
-        }
+        }*/
 
 
 
