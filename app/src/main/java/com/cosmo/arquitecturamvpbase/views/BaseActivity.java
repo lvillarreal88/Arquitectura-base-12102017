@@ -17,7 +17,6 @@ import com.cosmo.arquitecturamvpbase.presenter.BasePresenter;
 public class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements IBaseView {
 
 
-
     private IValidateInternet validateInternet;
     private ProgressDialog progressDialog;
     private T presenter;

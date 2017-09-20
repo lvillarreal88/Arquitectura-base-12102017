@@ -3,6 +3,7 @@ package com.cosmo.arquitecturamvpbase.views.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +27,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter> implements I
     private ListView productList;
     private ProductAdapter productAdapter;
     private ContentLoadingProgressBar progress;
+    private FloatingActionButton buttonLaunchCreate;
 
 
     @Override
@@ -39,7 +41,25 @@ public class ProductActivity extends BaseActivity<ProductPresenter> implements I
         progress = (ContentLoadingProgressBar) findViewById(R.id.progress);
         progress.show();
         getPresenter().validateInternetProduct();
+        loadEvents();
+    }
 
+    private void loadEvents() {
+        buttonLaunchCreate = (FloatingActionButton) findViewById(R.id.fab_launch_createproduct);
+        buttonLaunchCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductActivity.this, CreateProductActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        progress.show();
+        getPresenter().validateInternetProduct();
     }
 
     @Override
@@ -51,7 +71,6 @@ public class ProductActivity extends BaseActivity<ProductPresenter> implements I
                 callAdapter(productArrayList);
             }
         });
-
     }
 
     private void callAdapter(final ArrayList<Product> productArrayList) {

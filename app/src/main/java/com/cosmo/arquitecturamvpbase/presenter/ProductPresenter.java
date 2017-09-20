@@ -22,16 +22,11 @@ public class ProductPresenter extends BasePresenter<IProductView> {
     }
 
     public void validateInternetProduct() {
-
-
         if (getValidateInternet().isConnected()){
-
             createThreadProduct();
-
         }else{
             //TODO: implementación alert
         }
-
     }
 
     private void createThreadProduct() {
@@ -56,9 +51,6 @@ public class ProductPresenter extends BasePresenter<IProductView> {
         }/*finally {
             getView().hideProgress();
         }*/
-
-
-
     }
 
 

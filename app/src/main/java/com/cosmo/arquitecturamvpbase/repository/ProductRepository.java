@@ -20,13 +20,15 @@ public class ProductRepository {
     public ProductRepository() {
         ServicesFactory servicesFactory = new ServicesFactory();
         services = (IServices) servicesFactory.getInstance(IServices.class);
-
     }
 
     public ArrayList<Product> getProductList() throws RetrofitError{
+        ArrayList<Product>  products = services.getProductList();
+        return products;
+    }
 
-            ArrayList<Product>  products = services.getProductList();
-            return products;
-
+    public Product createProduct(Product product){
+        Product productCreated = services.createProduct(product);
+        return productCreated;
     }
 }
