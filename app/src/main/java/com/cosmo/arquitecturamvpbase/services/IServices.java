@@ -1,5 +1,6 @@
 package com.cosmo.arquitecturamvpbase.services;
 
+import com.cosmo.arquitecturamvpbase.model.DeleteResponse;
 import com.cosmo.arquitecturamvpbase.model.Product;
 
 import java.util.ArrayList;
@@ -22,4 +23,6 @@ public interface IServices {
     @POST("/products")
     Product createProduct(@Body Product product);
 
+    @DELETE("/products/{id}")
+    DeleteResponse deleteProduct(@Path("id")String id);
 }

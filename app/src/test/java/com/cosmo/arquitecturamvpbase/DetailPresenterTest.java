@@ -14,8 +14,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import retrofit.RetrofitError;
-
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -55,7 +53,7 @@ public class DetailPresenterTest {
         when(validateInternet.isConnected()).thenReturn(true);
         detailProductPresenter.deleteProduct(id);
         verify(detailProductPresenter).createThreadDeleteProduct(id);
-        verify(detailProductView, never()).showAlertDialog(R.string.validate_internet);
+        verify(detailProductView, never()).showToast(R.string.validate_internet);
     }
 
 
@@ -64,7 +62,7 @@ public class DetailPresenterTest {
         String id = "13g1jhhd232";
         when(validateInternet.isConnected()).thenReturn(false);
         detailProductPresenter.deleteProduct(id);
-        verify(detailProductView).showAlertDialog(R.string.validate_internet);
+        verify(detailProductView).showToast(R.string.validate_internet);
         verify(detailProductPresenter, never()).createThreadDeleteProduct(id);
 
     }
@@ -78,7 +76,7 @@ public class DetailPresenterTest {
         detailProductPresenter.deleteProductRepository(id);
         Assert.assertTrue(deleteResponse.isStatus());
         verify(detailProductView).showToast(R.string.correct);
-        verify(detailProductView, never()).showAlertDialogError(R.string.error);
+        verify(detailProductView, never()).showToast(R.string.error_delete_product);
 
     }
 
@@ -90,7 +88,7 @@ public class DetailPresenterTest {
         when(productRepository.deleteProduct(id)).thenReturn(deleteResponse);
         detailProductPresenter.deleteProductRepository(id);
         Assert.assertFalse(deleteResponse.isStatus());
-        verify(detailProductView).showAlertDialogError(R.string.error);
+        verify(detailProductView).showToast(R.string.error_delete_product);
         verify(detailProductView, never()).showToast(R.string.correct);
 
     }

@@ -35,7 +35,7 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public DeleteResponse deleteProduct(String id) throws RetrofitError {
-        DeleteResponse deleteResponse =  new DeleteResponse();
+        DeleteResponse deleteResponse =  services.deleteProduct(id);
         return deleteResponse;
     }
 }

@@ -1,8 +1,8 @@
 package com.cosmo.arquitecturamvpbase.presenter;
 
+import com.cosmo.arquitecturamvpbase.R;
 import com.cosmo.arquitecturamvpbase.model.Product;
 import com.cosmo.arquitecturamvpbase.repository.ProductRepository;
-import com.cosmo.arquitecturamvpbase.views.IBaseView;
 import com.cosmo.arquitecturamvpbase.views.activities.ICreateProductView;
 
 import retrofit.RetrofitError;
@@ -23,7 +23,7 @@ public class CreateProductPresenter extends BasePresenter<ICreateProductView> {
         if (getValidateInternet().isConnected()){
             createThreadCreateProduct(product);
         }else{
-            //TODO: mostrar alert
+            getView().showAlertInternet(R.string.error, R.string.validate_internet);
         }
     }
 
@@ -39,7 +39,7 @@ public class CreateProductPresenter extends BasePresenter<ICreateProductView> {
 
     private void createNewProductService(Product product){
         try{
-            Product productCreated = productRepository.createProduct(product);
+            productRepository.createProduct(product);
             getView().showResultCreateNewProduct(true);
         }catch (RetrofitError retrofitError){
             getView().showResultCreateNewProduct(false);

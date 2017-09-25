@@ -57,23 +57,22 @@ public class DetailActivity extends BaseActivity<DetailProductPresenter> impleme
 
     }
 
-    @Override
-    public void showAlertDialog(int message) {
-        //TODO: implementar alert
-    }
 
     @Override
-    public void showToast(int message) {
+    public void showToast(final int message) {
         //TODO: implemnetar toast
-        Toast.makeText(this, R.string.deleteProduct, Toast.LENGTH_SHORT).show();
-        finish();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(DetailActivity.this, message, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
     }
 
 
-    @Override
-    public void showAlertDialogError(int error) {
 
-    }
 
     public void deleteProduct(View view){
         getPresenter().deleteProduct(product.getId());

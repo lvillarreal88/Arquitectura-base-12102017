@@ -7,9 +7,8 @@ import com.cosmo.arquitecturamvpbase.views.IBaseView;
  */
 
 public interface IDetailProductView extends IBaseView {
-    void showAlertDialog(int message);
 
     void showToast(int message);
 
-    void showAlertDialogError(int error);
+
 }

@@ -23,7 +23,7 @@ public class DetailProductPresenter extends BasePresenter<IDetailProductView> {
         if(getValidateInternet().isConnected()){
             createThreadDeleteProduct(id);
         }else{
-            getView().showAlertDialog(R.string.validate_internet);
+            getView().showToast(R.string.validate_internet);
         }
     }
 
@@ -45,11 +45,11 @@ public class DetailProductPresenter extends BasePresenter<IDetailProductView> {
             if(deleteResponse.isStatus()){
                 getView().showToast(R.string.correct);
             }else{
-                getView().showAlertDialogError(R.string.error);
+                getView().showToast(R.string.error_delete_product);
             }
 
         }catch (RetrofitError retrofitError){
-            //TODO: manejar error
+            getView().showToast(R.string.error_delete_product);
         }finally {
             getView().hideProgress();
         }

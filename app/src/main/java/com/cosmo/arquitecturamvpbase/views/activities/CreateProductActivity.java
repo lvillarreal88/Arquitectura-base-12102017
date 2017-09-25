@@ -1,5 +1,6 @@
 package com.cosmo.arquitecturamvpbase.views.activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.ContentLoadingProgressBar;
@@ -93,15 +94,26 @@ public class CreateProductActivity  extends BaseActivity<CreateProductPresenter>
 
     @Override
     public void showResultCreateNewProduct(final boolean isCreated) {
-        progress.hide();
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                progress.hide();
                 if(isCreated){
                     Toast.makeText(CreateProductActivity.this, getResources().getString(R.string.okResponseCreateProduct), Toast.LENGTH_LONG).show();
                 }else{
                     Toast.makeText(CreateProductActivity.this, getResources().getString(R.string.errResponseCreateProduct), Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+    }
+
+    @Override
+    public void showAlertInternet(final int title, final int message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(CreateProductActivity.this, R.string.validate_internet, Toast.LENGTH_SHORT).show();
             }
         });
     }

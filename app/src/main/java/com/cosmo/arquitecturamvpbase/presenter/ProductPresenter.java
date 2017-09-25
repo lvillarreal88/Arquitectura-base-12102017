@@ -22,15 +22,15 @@ public class ProductPresenter extends BasePresenter<IProductView> {
     }
 
     public void validateInternetProduct() {
-        if (getValidateInternet().isConnected()){
+        if (getValidateInternet().isConnected()) {
             createThreadProduct();
-        }else{
-            getView().showAlertDialog(R.string.error, R.string.validate_internet);
+        } else {
+            getView().showAlertDialogInternet(R.string.error, R.string.validate_internet);
         }
     }
 
     private void createThreadProduct() {
-       // getView().showProgress(R.string.loading_message);
+        // getView().showProgress(R.string.loading_message);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -46,8 +46,8 @@ public class ProductPresenter extends BasePresenter<IProductView> {
             ArrayList<Product> productArrayList = productRepository.getProductList();
             getView().showProductList(productArrayList);
 
-        } catch (RetrofitError retrofitError){
-            //TODO: mostrar alert
+        } catch (RetrofitError retrofitError) {
+            getView().showAlertError(R.string.error, retrofitError.getMessage());
         }/*finally {
             getView().hideProgress();
         }*/

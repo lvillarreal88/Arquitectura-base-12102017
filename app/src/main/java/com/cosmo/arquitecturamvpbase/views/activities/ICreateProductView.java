@@ -11,4 +11,5 @@ public interface ICreateProductView extends IBaseView {
 
     void showResultCreateNewProduct(boolean isCreated);
 
+    void showAlertInternet(int title, int message);
 }

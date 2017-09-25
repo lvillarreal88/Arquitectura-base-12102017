@@ -81,7 +81,12 @@ public class ProductActivity extends BaseActivity<ProductPresenter> implements I
     }
 
     @Override
-    public void showAlertDialog(final int title, final int message) {
+    public void showAlertDialogInternet(final int title, final int message) {
+       showAlertDialog(title, getResources().getString(message));
+
+    }
+
+    private void showAlertDialog(final int title, final String message) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -98,7 +103,11 @@ public class ProductActivity extends BaseActivity<ProductPresenter> implements I
                 });
             }
         });
+    }
 
+    @Override
+    public void showAlertError(int title, String message) {
+        showAlertDialog(title, message);
     }
 
     private void callAdapter(final ArrayList<Product> productArrayList) {
