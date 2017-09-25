@@ -25,7 +25,7 @@ public class ProductPresenter extends BasePresenter<IProductView> {
         if (getValidateInternet().isConnected()){
             createThreadProduct();
         }else{
-            //TODO: implementación alert
+            getView().showAlertDialog(R.string.error, R.string.validate_internet);
         }
     }
 

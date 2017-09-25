@@ -1,5 +1,6 @@
 package com.cosmo.arquitecturamvpbase.views.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -44,6 +45,12 @@ public class ProductActivity extends BaseActivity<ProductPresenter> implements I
         loadEvents();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getPresenter().validateInternetProduct();
+    }
+
     private void loadEvents() {
         buttonLaunchCreate = (FloatingActionButton) findViewById(R.id.fab_launch_createproduct);
         buttonLaunchCreate.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +78,27 @@ public class ProductActivity extends BaseActivity<ProductPresenter> implements I
                 callAdapter(productArrayList);
             }
         });
+    }
+
+    @Override
+    public void showAlertDialog(final int title, final int message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getShowAlertDialog().showAlertDialog(title, message, false, R.string.accept, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getPresenter().validateInternetProduct();
+                    }
+                }, R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+            }
+        });
+
     }
 
     private void callAdapter(final ArrayList<Product> productArrayList) {

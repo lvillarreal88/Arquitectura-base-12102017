@@ -4,17 +4,22 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cosmo.arquitecturamvpbase.R;
 import com.cosmo.arquitecturamvpbase.helper.Constants;
 import com.cosmo.arquitecturamvpbase.model.Product;
+import com.cosmo.arquitecturamvpbase.presenter.DetailProductPresenter;
+import com.cosmo.arquitecturamvpbase.repository.ProductRepository;
+import com.cosmo.arquitecturamvpbase.views.BaseActivity;
 
 /**
  * Created by leidyzulu on 16/09/17.
  */
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends BaseActivity<DetailProductPresenter> implements IDetailProductView {
 
     private TextView nameValue;
     private TextView descriptionValue;
@@ -26,6 +31,9 @@ public class DetailActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceStat) {
         super.onCreate(savedInstanceStat);
         setContentView(R.layout.activity_product_detail);
+        setPresenter(new DetailProductPresenter(new ProductRepository()));
+        getPresenter().inject(this, getValidateInternet());
+        createProgressDialog();
         loadView();
         product = (Product) getIntent().getSerializableExtra(Constants.ITEM_PRODUCT);
         setDataItem();
@@ -47,5 +55,27 @@ public class DetailActivity extends AppCompatActivity {
         priceValue = (TextView) findViewById(R.id.product_detail_price_value);
 
 
+    }
+
+    @Override
+    public void showAlertDialog(int message) {
+        //TODO: implementar alert
+    }
+
+    @Override
+    public void showToast(int message) {
+        //TODO: implemnetar toast
+        Toast.makeText(this, R.string.deleteProduct, Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+
+    @Override
+    public void showAlertDialogError(int error) {
+
+    }
+
+    public void deleteProduct(View view){
+        getPresenter().deleteProduct(product.getId());
     }
 }
