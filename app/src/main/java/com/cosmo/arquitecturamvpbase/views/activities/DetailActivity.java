@@ -60,7 +60,7 @@ public class DetailActivity extends BaseActivity<DetailProductPresenter> impleme
 
     @Override
     public void showToast(final int message) {
-        //TODO: implemnetar toast
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -71,7 +71,16 @@ public class DetailActivity extends BaseActivity<DetailProductPresenter> impleme
 
     }
 
-
+    @Override
+    public void showToast(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(DetailActivity.this, message, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
 
 
     public void deleteProduct(View view){

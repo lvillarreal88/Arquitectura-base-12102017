@@ -3,6 +3,7 @@ package com.cosmo.arquitecturamvpbase.presenter;
 import com.cosmo.arquitecturamvpbase.R;
 import com.cosmo.arquitecturamvpbase.model.DeleteResponse;
 import com.cosmo.arquitecturamvpbase.repository.IProductRepository;
+import com.cosmo.arquitecturamvpbase.repository.RepositoryError;
 import com.cosmo.arquitecturamvpbase.views.activities.IDetailProductView;
 
 import retrofit.RetrofitError;
@@ -48,8 +49,8 @@ public class DetailProductPresenter extends BasePresenter<IDetailProductView> {
                 getView().showToast(R.string.error_delete_product);
             }
 
-        }catch (RetrofitError retrofitError){
-            getView().showToast(R.string.error_delete_product);
+        }catch (RepositoryError repositoryError){
+            getView().showToast(repositoryError.getMessage());
         }finally {
             getView().hideProgress();
         }

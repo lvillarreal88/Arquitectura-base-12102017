@@ -1,9 +1,11 @@
 package com.cosmo.arquitecturamvpbase;
 
+import com.cosmo.arquitecturamvpbase.helper.Constants;
 import com.cosmo.arquitecturamvpbase.helper.IValidateInternet;
 import com.cosmo.arquitecturamvpbase.model.DeleteResponse;
 import com.cosmo.arquitecturamvpbase.presenter.DetailProductPresenter;
 import com.cosmo.arquitecturamvpbase.repository.IProductRepository;
+import com.cosmo.arquitecturamvpbase.repository.RepositoryError;
 import com.cosmo.arquitecturamvpbase.views.activities.IDetailProductView;
 
 import org.junit.Assert;
@@ -68,7 +70,7 @@ public class DetailPresenterTest {
     }
 
     @Test
-    public void methodDeleteProductShouldCallMethodDeleteProductInRepositoryTrue(){
+    public void methodDeleteProductShouldCallMethodDeleteProductInRepositoryTrue() throws RepositoryError{
         DeleteResponse deleteResponse = new DeleteResponse();
         deleteResponse.setStatus(true);
         String id = "13g1jhhd232";
@@ -81,7 +83,7 @@ public class DetailPresenterTest {
     }
 
     @Test
-    public void methodDeleteProductShouldCallMethodDeleteProductInRepositoryFalse(){
+    public void methodDeleteProductShouldCallMethodDeleteProductInRepositoryFalse() throws RepositoryError{
         DeleteResponse deleteResponse = new DeleteResponse();
         deleteResponse.setStatus(false);
         String id = "13g1jhhd232";
@@ -98,6 +100,16 @@ public class DetailPresenterTest {
         String id = "13g1jhhd232";
         detailProductPresenter.createThreadDeleteProduct(id);
         verify(detailProductView).showProgress(R.string.loading_message);
+    }
+
+    @Test
+    public void methodDeleteProductShouldShowAlertWhenRepositoryReturnError()throws RepositoryError{
+        String id = "13g1jhhd232";
+        RepositoryError repositoryError = new RepositoryError(Constants.DEFAUL_ERROR);
+        when(productRepository.deleteProduct(id)).thenThrow(repositoryError);
+        detailProductPresenter.deleteProductRepository(id);
+        verify(detailProductView).showToast(repositoryError.getMessage());
+        verify(detailProductView, never()).showToast(R.string.correct);
     }
 
 

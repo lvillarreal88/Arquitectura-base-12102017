@@ -11,4 +11,5 @@ public interface IDetailProductView extends IBaseView {
     void showToast(int message);
 
 
+    void showToast(String message);
 }

@@ -2,7 +2,9 @@ package com.cosmo.arquitecturamvpbase.presenter;
 
 import com.cosmo.arquitecturamvpbase.R;
 import com.cosmo.arquitecturamvpbase.model.Product;
+import com.cosmo.arquitecturamvpbase.repository.MapperError;
 import com.cosmo.arquitecturamvpbase.repository.ProductRepository;
+import com.cosmo.arquitecturamvpbase.repository.RepositoryError;
 import com.cosmo.arquitecturamvpbase.views.activities.IProductView;
 
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ public class ProductPresenter extends BasePresenter<IProductView> {
         productRepository = new ProductRepository();
     }
 
-    public void validateInternetProduct() {
+    public void getListProduct() {
         if (getValidateInternet().isConnected()) {
             createThreadProduct();
         } else {
@@ -47,7 +49,10 @@ public class ProductPresenter extends BasePresenter<IProductView> {
             getView().showProductList(productArrayList);
 
         } catch (RetrofitError retrofitError) {
-            getView().showAlertError(R.string.error, retrofitError.getMessage());
+
+            RepositoryError repositoryError = MapperError.convertRetrofitErrorToRepositoryError(retrofitError);
+            getView().showAlertError(R.string.error, repositoryError.getMessage());
+
         }/*finally {
             getView().hideProgress();
         }*/

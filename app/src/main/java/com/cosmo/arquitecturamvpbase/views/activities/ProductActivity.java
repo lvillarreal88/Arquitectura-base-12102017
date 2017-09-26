@@ -41,14 +41,14 @@ public class ProductActivity extends BaseActivity<ProductPresenter> implements I
         productList = (ListView) findViewById(R.id.product_listView);
         progress = (ContentLoadingProgressBar) findViewById(R.id.progress);
         progress.show();
-        getPresenter().validateInternetProduct();
+        getPresenter().getListProduct();
         loadEvents();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        getPresenter().validateInternetProduct();
+        getPresenter().getListProduct();
     }
 
     private void loadEvents() {
@@ -66,7 +66,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter> implements I
     protected void onResume() {
         super.onResume();
         progress.show();
-        getPresenter().validateInternetProduct();
+        getPresenter().getListProduct();
     }
 
     @Override
@@ -87,22 +87,22 @@ public class ProductActivity extends BaseActivity<ProductPresenter> implements I
     }
 
     private void showAlertDialog(final int title, final String message) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                getShowAlertDialog().showAlertDialog(title, message, false, R.string.accept, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        getPresenter().validateInternetProduct();
-                    }
-                }, R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-            }
-        });
+       runOnUiThread(new Runnable() {
+           @Override
+           public void run() {
+               getShowAlertDialog().showAlertDialog(title, message, false, R.string.accept, new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                        getPresenter().getListProduct();
+                   }
+               }, R.string.cancel, new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                       finish();
+                   }
+               });
+           }
+       });
     }
 
     @Override

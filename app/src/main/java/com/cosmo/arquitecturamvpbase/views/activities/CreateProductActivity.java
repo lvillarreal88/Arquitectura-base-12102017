@@ -101,9 +101,11 @@ public class CreateProductActivity  extends BaseActivity<CreateProductPresenter>
                 progress.hide();
                 if(isCreated){
                     Toast.makeText(CreateProductActivity.this, getResources().getString(R.string.okResponseCreateProduct), Toast.LENGTH_LONG).show();
+                    finish();
                 }else{
                     Toast.makeText(CreateProductActivity.this, getResources().getString(R.string.errResponseCreateProduct), Toast.LENGTH_LONG).show();
                 }
+
             }
         });
     }

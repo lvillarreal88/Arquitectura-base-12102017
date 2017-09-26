@@ -28,14 +28,21 @@ public class ProductRepository implements IProductRepository {
         return products;
     }
     @Override
-    public Product createProduct(Product product){
+    public Product createProduct(Product product) throws RetrofitError{
         Product productCreated = services.createProduct(product);
         return productCreated;
     }
 
     @Override
-    public DeleteResponse deleteProduct(String id) throws RetrofitError {
-        DeleteResponse deleteResponse =  services.deleteProduct(id);
-        return deleteResponse;
+    public DeleteResponse deleteProduct(String id)  throws RepositoryError {
+        try {
+
+           return services.deleteProduct(id);
+
+        }catch (RetrofitError retrofitError){
+
+            throw  MapperError.convertRetrofitErrorToRepositoryError(retrofitError);
+        }
+
     }
 }
