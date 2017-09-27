@@ -3,6 +3,7 @@ package com.cosmo.arquitecturamvpbase;
 import com.cosmo.arquitecturamvpbase.helper.Constants;
 import com.cosmo.arquitecturamvpbase.helper.IValidateInternet;
 import com.cosmo.arquitecturamvpbase.model.DeleteResponse;
+import com.cosmo.arquitecturamvpbase.model.Product;
 import com.cosmo.arquitecturamvpbase.presenter.DetailProductPresenter;
 import com.cosmo.arquitecturamvpbase.repository.IProductRepository;
 import com.cosmo.arquitecturamvpbase.repository.RepositoryError;
@@ -41,6 +42,17 @@ public class DetailPresenterTest {
 
     DetailProductPresenter detailProductPresenter;
 
+    private Product getProduct(){
+        Product product =  new Product();
+        product.setDescription("Empanada");
+        product.setName("Empanada");
+        product.setId("121u2gjg1g");
+        product.setPrice("1500");
+        return  product;
+    }
+
+
+
 
     @Before
     public void setUp() throws Exception{
@@ -51,6 +63,7 @@ public class DetailPresenterTest {
 
     @Test
     public void methodDeleteProductWithConnectionShouldCallMethodCreateThreadDeleteProduct(){
+        Product product = getProduct();
         String id = "13g1jhhd232";
         when(validateInternet.isConnected()).thenReturn(true);
         detailProductPresenter.deleteProduct(id);
@@ -95,12 +108,12 @@ public class DetailPresenterTest {
 
     }
 
-    @Test
+    /*@Test
     public void methodCreateThreadShouldShowProgressDialog(){
         String id = "13g1jhhd232";
         detailProductPresenter.createThreadDeleteProduct(id);
         verify(detailProductView).showProgress(R.string.loading_message);
-    }
+    }*/
 
     @Test
     public void methodDeleteProductShouldShowAlertWhenRepositoryReturnError()throws RepositoryError{
@@ -110,6 +123,7 @@ public class DetailPresenterTest {
         detailProductPresenter.deleteProductRepository(id);
         verify(detailProductView).showToast(repositoryError.getMessage());
         verify(detailProductView, never()).showToast(R.string.correct);
+        verify(detailProductView, never()).showToast(R.string.error_delete_product);
     }
 
 
