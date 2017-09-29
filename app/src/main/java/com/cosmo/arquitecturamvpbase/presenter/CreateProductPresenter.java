@@ -2,6 +2,7 @@ package com.cosmo.arquitecturamvpbase.presenter;
 
 import com.cosmo.arquitecturamvpbase.R;
 import com.cosmo.arquitecturamvpbase.model.Product;
+import com.cosmo.arquitecturamvpbase.repository.IProductRepository;
 import com.cosmo.arquitecturamvpbase.repository.ProductRepository;
 import com.cosmo.arquitecturamvpbase.views.activities.ICreateProductView;
 
@@ -13,13 +14,26 @@ import retrofit.RetrofitError;
 
 public class CreateProductPresenter extends BasePresenter<ICreateProductView> {
 
-    private ProductRepository productRepository;
+    private IProductRepository productRepository;
 
-    public CreateProductPresenter(){
-        productRepository = new ProductRepository();
+    public CreateProductPresenter(IProductRepository productRepository){
+        this.productRepository = productRepository;
     }
 
-    public void createNewProduct(Product product) {
+    /*public void createNewProduct(Product product) {
+        if (getValidateInternet().isConnected()){
+            createThreadCreateProduct(product);
+        }else{
+            getView().showAlertInternet(R.string.error, R.string.validate_internet);
+        }
+    }*/
+
+    public void createNewProduct(String name, String description, String price, String quantity) {
+        Product product = new Product();
+        product.setName(name);
+        product.setDescription(description);
+        product.setPrice(price);
+        product.setQuantity(quantity);
         if (getValidateInternet().isConnected()){
             createThreadCreateProduct(product);
         }else{
@@ -27,7 +41,7 @@ public class CreateProductPresenter extends BasePresenter<ICreateProductView> {
         }
     }
 
-    private void createThreadCreateProduct(final Product product) {
+    public void createThreadCreateProduct(final Product product) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

@@ -17,6 +17,7 @@ import com.cosmo.arquitecturamvpbase.model.Product;
 import com.cosmo.arquitecturamvpbase.presenter.BasePresenter;
 import com.cosmo.arquitecturamvpbase.presenter.CreateProductPresenter;
 import com.cosmo.arquitecturamvpbase.presenter.ProductPresenter;
+import com.cosmo.arquitecturamvpbase.repository.ProductRepository;
 import com.cosmo.arquitecturamvpbase.views.BaseActivity;
 
 /**
@@ -35,7 +36,7 @@ public class CreateProductActivity  extends BaseActivity<CreateProductPresenter>
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_product);
-        setPresenter(new CreateProductPresenter());
+        setPresenter(new CreateProductPresenter(new ProductRepository()));
         getPresenter().inject(this, getValidateInternet());
         progress = (ContentLoadingProgressBar) findViewById(R.id.progress);
         progress.hide();
@@ -60,12 +61,13 @@ public class CreateProductActivity  extends BaseActivity<CreateProductPresenter>
         product_btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Product product = new Product();
+                /*Product product = new Product();
                 product.setName(product_etName.getText().toString());
                 product.setDescription(product_etDescription.getText().toString());
                 product.setPrice(product_etPrice.getText().toString());
-                product.setQuantity(product_etQuantity.getText().toString());
-                getPresenter().createNewProduct(product);
+                product.setQuantity(product_etQuantity.getText().toString());*/
+                getPresenter().createNewProduct(product_etName.getText().toString(), product_etDescription.getText().toString(),
+                        product_etPrice.getText().toString(),product_etQuantity.getText().toString());
             }
         });
     }
