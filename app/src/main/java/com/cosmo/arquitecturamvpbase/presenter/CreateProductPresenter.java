@@ -1,10 +1,13 @@
 package com.cosmo.arquitecturamvpbase.presenter;
 
 import com.cosmo.arquitecturamvpbase.R;
+import com.cosmo.arquitecturamvpbase.helper.Database;
 import com.cosmo.arquitecturamvpbase.model.Product;
 import com.cosmo.arquitecturamvpbase.repository.IProductRepository;
 import com.cosmo.arquitecturamvpbase.repository.ProductRepository;
 import com.cosmo.arquitecturamvpbase.views.activities.ICreateProductView;
+
+import java.util.UUID;
 
 import retrofit.RetrofitError;
 
@@ -30,6 +33,7 @@ public class CreateProductPresenter extends BasePresenter<ICreateProductView> {
 
     public void createNewProduct(String name, String description, String price, String quantity) {
         Product product = new Product();
+        product.setId(UUID.randomUUID().toString()); //WARNING
         product.setName(name);
         product.setDescription(description);
         product.setPrice(price);
@@ -45,10 +49,20 @@ public class CreateProductPresenter extends BasePresenter<ICreateProductView> {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                createNewProductService(product);
+                //createNewProductService(product);
+                createNewProductLocal(product);
             }
         });
         thread.start();
+    }
+
+    private void createNewProductLocal(Product product) {
+        try{
+            boolean isSaved = Database.productDao.createProduct(product);
+            getView().showResultCreateNewProduct(isSaved);
+        }catch (Exception ex){
+            getView().showResultCreateNewProduct(false);
+        }
     }
 
     private void createNewProductService(Product product){

@@ -1,6 +1,7 @@
 package com.cosmo.arquitecturamvpbase.presenter;
 
 import com.cosmo.arquitecturamvpbase.R;
+import com.cosmo.arquitecturamvpbase.helper.Database;
 import com.cosmo.arquitecturamvpbase.model.Product;
 import com.cosmo.arquitecturamvpbase.repository.MapperError;
 import com.cosmo.arquitecturamvpbase.repository.ProductRepository;
@@ -36,14 +37,23 @@ public class ProductPresenter extends BasePresenter<IProductView> {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                getProductList();
+                //getProductList();
+                getProductListDB();
             }
         });
         thread.start();
     }
 
-    private void getProductList() {
+    private void getProductListDB() {
+        try {
+            ArrayList<Product> productArrayList = Database.productDao.fetchAllProducts();
+            getView().showProductList(productArrayList);
+        } catch (Exception ex) {
+            getView().showAlertError(R.string.error, ex.getMessage());
+        }
+    }
 
+    private void getProductList() {
         try {
             ArrayList<Product> productArrayList = productRepository.getProductList();
             getView().showProductList(productArrayList);
