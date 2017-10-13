@@ -6,6 +6,7 @@ package com.cosmo.arquitecturamvpbase.helper;
 
 public class Constants {
 
+    public final static String TAG_APP = ":: EMPANADAS ::";
     public final static String URL_BASE = "https://shoppingproducts.herokuapp.com";
     public final static int TIME_OUT = 6;
     public final static String ITEM_PRODUCT = "Itemproduct";
@@ -17,7 +18,7 @@ public class Constants {
 
 
     //DATABASE
-    public static final String DATABASE_NAME = "shopping_class_db.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final String DATABASE_NAME = "appv3_db.db";
+    public static final int DATABASE_VERSION = 3;
 
 }

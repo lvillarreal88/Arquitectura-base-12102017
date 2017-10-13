@@ -45,13 +45,31 @@ public class ProductDao extends DbContentProvider implements IProductScheme, IPr
     public Boolean createProduct(Product product) {
         setContentValueProduct(product);
         try{
-            return super.insert(PRODUCT_TABLE, getContentValue()) >= 0;
-            /*
-            if(totalInserted == -1){
-                return false;
-            }
-            return true;
-            */
+            return super.insert(PRODUCT_TABLE, getContentValue()) > 0;
+        }catch (SQLiteConstraintException ex){
+            Log.e("DbErrorCreateProduct", ex.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean updateProduct(String id, Product product) {
+        setContentValueProduct(product);
+        try{
+            //return super.update(PRODUCT_TABLE,getContentValue(),COLUMN_ID+"=?",String [] {id})>0;
+            String [] values= new String[]{id};
+            return super.update(PRODUCT_TABLE, getContentValue(), COLUMN_ID+"=?", values)>0;
+        }catch (SQLiteConstraintException ex){
+            Log.e("DbErrorCreateProduct", ex.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean deleteProduct(String id) {
+        try{
+            String [] values= new String[]{id};
+            return super.delete(PRODUCT_TABLE, COLUMN_ID+"=?",values)>0;
         }catch (SQLiteConstraintException ex){
             Log.e("DbErrorCreateProduct", ex.getMessage());
             return false;
@@ -65,6 +83,7 @@ public class ProductDao extends DbContentProvider implements IProductScheme, IPr
         initialValues.put(COLUMN_PRODUT_DESCRIPTION, product.getDescription());
         initialValues.put(COLUMN_PRODUCT_QUANTITY, product.getQuantity());
         initialValues.put(COLUMN_PRODUCT_PRICE, product.getPrice());
+        initialValues.put(COLUMN_PRODUCT_IS_SYNC, product.getSync());
     }
 
     private ContentValues getContentValue() {
@@ -79,6 +98,7 @@ public class ProductDao extends DbContentProvider implements IProductScheme, IPr
         int descriptionIndex;
         int quantityIndex;
         int priceIndex;
+        int syncIndex;
 
         if(cursor.getColumnIndex(COLUMN_ID) != -1){
             idIndex = cursor.getColumnIndexOrThrow(COLUMN_ID);
@@ -99,6 +119,10 @@ public class ProductDao extends DbContentProvider implements IProductScheme, IPr
         if(cursor.getColumnIndex(COLUMN_PRODUCT_PRICE) != -1){
             priceIndex = cursor.getColumnIndexOrThrow(COLUMN_PRODUCT_PRICE);
             product.setPrice(cursor.getString(priceIndex));
+        }
+        if(cursor.getColumnIndex(COLUMN_PRODUCT_IS_SYNC) != -1){
+            syncIndex = cursor.getColumnIndexOrThrow(COLUMN_PRODUCT_IS_SYNC);
+            product.setPrice(cursor.getString(syncIndex));
         }
 
         return product;

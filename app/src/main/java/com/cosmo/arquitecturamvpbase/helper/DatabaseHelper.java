@@ -26,5 +26,9 @@ class DatabaseHelper extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(Constants.DATABASE_NAME, " actualizando de versión a: " + newVersion);
         db.execSQL("DROP TABLE IF EXISTS " + IProductScheme.PRODUCT_TABLE);
+       /* switch (newVersion){
+            case 1: db.execSQL("DROP TABLE IF EXISTS " + IProductScheme.PRODUCT_TABLE);
+            case 2: db.execSQL("ALTER TABLE IF EXISTS "+ IProductScheme.PRODUCT_TABLE+ " ADD COLUMN " + IProductScheme.COLUMN_PRODUCT_IS_SYNC);
+        }*/
     }
 }
